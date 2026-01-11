@@ -1,0 +1,8 @@
+{
+  "name": "Academy Nusantara",
+  "description": "Platform resmi kuis pendidikan Indonesia mencakup mata pelajaran umum dan agama (Islam, NU, Muhammadiyah) untuk jenjang SD, SMP, dan SMA.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
