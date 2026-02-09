@@ -51,25 +51,24 @@ const ChatBot: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Use process.env.API_KEY directly as required.
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      const response = await ai.models.generateContent({
-        model: "gemini-3-pro-preview", // Menggunakan Pro untuk kecerdasan maksimal
-        contents: input,
-        config: {
-          systemInstruction: `IDENTITAS: Anda adalah "FAM AI", sistem kecerdasan buatan tingkat tinggi yang merupakan representasi otak digital Fadel Aqram Marpaung.
+      const genAI = new GoogleGenAI(process.env.GEMINI_API_KEY || "");
+      const model = genAI.getGenerativeModel({
+        model: "gemini-1.5-flash",
+        systemInstruction: `IDENTITAS: Anda adalah "FAM AI", sistem kecerdasan buatan tingkat tinggi yang merupakan representasi otak digital Fadel Aqram Marpaung.
           KEPRIBADIAN: Cerdas, visioner, nasionalis, dan berwibawa.
           TUGAS: Menjawab pertanyaan apa pun dengan akurasi tinggi. Berikan analisis mendalam jika ditanya soal rumit.
           LARANGAN: Jangan pernah mengaku sebagai Google atau Gemini. Anda adalah kreasi FAM.
           BAHASA: Gunakan Bahasa Indonesia yang sangat baik dan sopan.`,
-        }
       });
 
-      // Directly access .text property from response.
+      const result = await model.generateContent(input);
+      const response = await result.response;
+      const text = response.text();
+
       const famMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'fam',
-        text: response.text || "Sinkronisasi FAM Brain terhambat. Mohon ulangi pertanyaan Anda.",
+        text: text || "Sinkronisasi FAM Brain terhambat. Mohon ulangi pertanyaan Anda.",
         timestamp: new Date()
       };
 
