@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { HashRouter as Router, Link, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
 import { Trophy, Phone, Info, Home as HomeIcon, Menu, X, Brain, MessageSquare } from 'lucide-react';
 import Home from './pages/Home';
 import Categories from './pages/Categories';
