@@ -115,13 +115,14 @@ const Quiz: React.FC = () => {
               required
               type="text" 
               placeholder="Nama Lengkap..."
+              aria-label="Nama Lengkap"
               className="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-emerald-500 outline-none font-bold"
               value={identity.name}
               onChange={(e) => setIdentity({...identity, name: e.target.value})}
             />
             <div className="grid grid-cols-2 gap-4">
-               <input required type="text" placeholder="Asal Sekolah..." className="px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-emerald-500 outline-none font-bold" value={identity.school} onChange={(e) => setIdentity({...identity, school: e.target.value})} />
-               <input required type="text" placeholder="Kelas..." className="px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-emerald-500 outline-none font-bold" value={identity.grade} onChange={(e) => setIdentity({...identity, grade: e.target.value})} />
+               <input required type="text" placeholder="Asal Sekolah..." aria-label="Asal Sekolah" className="px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-emerald-500 outline-none font-bold" value={identity.school} onChange={(e) => setIdentity({...identity, school: e.target.value})} />
+               <input required type="text" placeholder="Kelas..." aria-label="Kelas" className="px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-emerald-500 outline-none font-bold" value={identity.grade} onChange={(e) => setIdentity({...identity, grade: e.target.value})} />
             </div>
             <button type="submit" className="w-full bg-slate-900 text-white py-6 rounded-2xl font-black text-xl uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-xl">MULAI SEKARANG</button>
           </form>
@@ -151,10 +152,28 @@ const Quiz: React.FC = () => {
       <div className="bg-white border-b-4 border-slate-100 sticky top-16 z-30 shadow-sm">
         <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <h1 className="font-black text-slate-900 text-2xl tracking-tighter uppercase truncate">{isFestival ? 'FESTIVAL NASIONAL' : decodedSubject}</h1>
-          <div className="flex items-center gap-4 bg-[#0f172a] px-8 py-4 rounded-2xl text-white">
-            <Clock size={24} className="text-emerald-400" />
-            <span className="font-black text-2xl tracking-tight">{formatTime(state.timeLeft)}</span>
+          <div className="flex items-center gap-6">
+            <div className="text-right">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Progress</p>
+              <p className="font-black text-slate-900 text-xs sm:text-base">Soal {state.currentQuestionIndex + 1} / {questions.length}</p>
+            </div>
+            <div className="flex items-center gap-3 sm:gap-4 bg-[#0f172a] px-4 sm:px-8 py-3 sm:py-4 rounded-2xl text-white">
+              <Clock size={24} className="text-emerald-400" />
+              <span className="font-black text-2xl tracking-tight">{formatTime(state.timeLeft)}</span>
+            </div>
           </div>
+        </div>
+        <div className="w-full h-1.5 bg-slate-100 overflow-hidden">
+          <MotionDiv
+            className="h-full bg-emerald-500"
+            initial={{ width: 0 }}
+            animate={{ width: `${(questions.length > 0 ? (state.currentQuestionIndex / questions.length) * 100 : 0)}%` }}
+            transition={{ duration: 0.5 }}
+            role="progressbar"
+            aria-valuenow={state.currentQuestionIndex}
+            aria-valuemin={0}
+            aria-valuemax={questions.length}
+          />
         </div>
       </div>
 
