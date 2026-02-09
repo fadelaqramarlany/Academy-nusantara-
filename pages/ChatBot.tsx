@@ -115,7 +115,11 @@ const ChatBot: React.FC = () => {
               </div>
             </div>
           </div>
-          <button onClick={clearChat} className="p-3 text-slate-400 hover:text-red-400 hover:bg-white/5 rounded-2xl transition-all">
+          <button
+            onClick={clearChat}
+            className="p-3 text-slate-400 hover:text-red-400 hover:bg-white/5 rounded-2xl transition-all"
+            aria-label="Bersihkan percakapan"
+          >
             <Trash2 size={20} />
           </button>
         </div>
