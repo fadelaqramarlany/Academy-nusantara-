@@ -1,12 +1,23 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Trophy, BookOpen, GraduationCap, ChevronRight, Award, Zap, Brain, UserPlus } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Trophy, BookOpen, GraduationCap, ChevronRight, Award, Zap, Brain, UserPlus, Loader2, CheckCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const MotionDiv = motion.div as any;
 
 const Home: React.FC = () => {
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
+
+  const handleRegistration = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+  };
+
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
@@ -76,29 +87,41 @@ const Home: React.FC = () => {
                  <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">PENDAFTARAN SISWA</h2>
                  <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mt-2">Masuk ke Database Prestasi Nasional</p>
               </div>
-              <form className="grid md:grid-cols-2 gap-6" onSubmit={(e) => { e.preventDefault(); alert("Pendaftaran Berhasil! Silakan mulai kuis pertama Anda."); }}>
-                 <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Nama Lengkap</label>
-                    <input type="text" placeholder="Nama sesuai rapor..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
-                 </div>
-                 <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">NISN</label>
-                    <input type="text" placeholder="Nomor Induk Siswa..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
-                 </div>
-                 <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Asal Sekolah</label>
-                    <input type="text" placeholder="Nama sekolah lengkap..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
-                 </div>
-                 <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Jenjang</label>
-                    <select className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold">
-                       <option>SD</option>
-                       <option>SMP</option>
-                       <option>SMA</option>
-                    </select>
-                 </div>
-                 <button className="md:col-span-2 bg-slate-900 text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-xl mt-4">Simpan Data Peserta</button>
-              </form>
+
+              <AnimatePresence mode="wait">
+                {!isSubmitted ? (
+                  <MotionDiv key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <form className="grid md:grid-cols-2 gap-6" onSubmit={handleRegistration}>
+                       {[
+                         { id: "nama", label: "Nama Lengkap", placeholder: "Nama sesuai rapor..." },
+                         { id: "nisn", label: "NISN", placeholder: "Nomor Induk Siswa..." },
+                         { id: "sekolah", label: "Asal Sekolah", placeholder: "Nama sekolah lengkap..." }
+                       ].map(field => (
+                         <div key={field.id} className="space-y-4">
+                            <label htmlFor={field.id} className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{field.label}</label>
+                            <input id={field.id} type="text" placeholder={field.placeholder} required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
+                         </div>
+                       ))}
+                       <div className="space-y-4">
+                          <label htmlFor="jenjang" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Jenjang</label>
+                          <select id="jenjang" className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold">
+                             <option>SD</option><option>SMP</option><option>SMA</option>
+                          </select>
+                       </div>
+                       <button disabled={isSubmitting} className="md:col-span-2 bg-slate-900 text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-xl mt-4 flex items-center justify-center gap-3 disabled:opacity-70">
+                          {isSubmitting ? <><Loader2 className="animate-spin w-5 h-5" /> Memproses...</> : "Simpan Data Peserta"}
+                       </button>
+                    </form>
+                  </MotionDiv>
+                ) : (
+                  <MotionDiv key="success" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="py-12 text-center">
+                    <CheckCircle className="text-emerald-500 w-16 h-16 mx-auto mb-6" />
+                    <h3 className="text-3xl font-black text-slate-900 uppercase">Pendaftaran Berhasil!</h3>
+                    <p className="text-slate-500 font-bold mt-2 uppercase text-xs tracking-widest">Data Anda telah tersinkronisasi.</p>
+                    <button onClick={() => setIsSubmitted(false)} className="mt-10 bg-slate-900 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-lg">Daftar Kembali</button>
+                  </MotionDiv>
+                )}
+              </AnimatePresence>
            </div>
         </div>
       </section>
