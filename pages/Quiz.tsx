@@ -110,20 +110,22 @@ const Quiz: React.FC = () => {
             <p className="text-slate-400 font-bold uppercase tracking-widest text-xs mt-2">{isFestival ? 'KOMPETISI FESTIVAL NASIONAL' : `Sesi: ${decodedSubject}`}</p>
           </div>
 
-          <form onSubmit={startQuizAfterIdentity} className="space-y-6">
-            <input 
-              required
-              type="text" 
-              placeholder="Nama Lengkap..."
-              className="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-emerald-500 outline-none font-bold"
-              value={identity.name}
-              onChange={(e) => setIdentity({...identity, name: e.target.value})}
-            />
-            <div className="grid grid-cols-2 gap-4">
-               <input required type="text" placeholder="Asal Sekolah..." className="px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-emerald-500 outline-none font-bold" value={identity.school} onChange={(e) => setIdentity({...identity, school: e.target.value})} />
-               <input required type="text" placeholder="Kelas..." className="px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-emerald-500 outline-none font-bold" value={identity.grade} onChange={(e) => setIdentity({...identity, grade: e.target.value})} />
+          <form onSubmit={startQuizAfterIdentity} className="space-y-6 text-left">
+            <div>
+              <label htmlFor="quiz-name" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 mb-2">Nama Lengkap</label>
+              <input id="quiz-name" required type="text" placeholder="Masukkan nama..." className="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-emerald-500 outline-none font-bold" value={identity.name} onChange={(e) => setIdentity({...identity, name: e.target.value})} />
             </div>
-            <button type="submit" className="w-full bg-slate-900 text-white py-6 rounded-2xl font-black text-xl uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-xl">MULAI SEKARANG</button>
+            <div className="grid grid-cols-2 gap-4">
+               <div>
+                 <label htmlFor="quiz-school" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 mb-2">Asal Sekolah</label>
+                 <input id="quiz-school" required type="text" placeholder="Sekolah..." className="w-full px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-emerald-500 outline-none font-bold" value={identity.school} onChange={(e) => setIdentity({...identity, school: e.target.value})} />
+               </div>
+               <div>
+                 <label htmlFor="quiz-grade" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 mb-2">Kelas</label>
+                 <input id="quiz-grade" required type="text" placeholder="Kelas..." className="w-full px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-emerald-500 outline-none font-bold" value={identity.grade} onChange={(e) => setIdentity({...identity, grade: e.target.value})} />
+               </div>
+            </div>
+            <button type="submit" className="w-full bg-slate-900 text-white py-6 rounded-2xl font-black text-xl uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-xl mt-4">MULAI SEKARANG</button>
           </form>
         </MotionDiv>
       </div>
@@ -149,23 +151,39 @@ const Quiz: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#f8fafc] pb-32">
       <div className="bg-white border-b-4 border-slate-100 sticky top-16 z-30 shadow-sm">
-        <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <h1 className="font-black text-slate-900 text-2xl tracking-tighter uppercase truncate">{isFestival ? 'FESTIVAL NASIONAL' : decodedSubject}</h1>
-          <div className="flex items-center gap-4 bg-[#0f172a] px-8 py-4 rounded-2xl text-white">
-            <Clock size={24} className="text-emerald-400" />
-            <span className="font-black text-2xl tracking-tight">{formatTime(state.timeLeft)}</span>
+        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <h1 className="font-black text-slate-900 text-2xl tracking-tighter uppercase truncate">{isFestival ? 'FESTIVAL NASIONAL' : decodedSubject}</h1>
+            <span className="text-emerald-600 font-black uppercase tracking-widest text-[10px] bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
+              Soal {state.currentQuestionIndex + 1} / {questions.length}
+            </span>
           </div>
+          <div className="flex items-center gap-4 bg-[#0f172a] px-6 py-3 rounded-2xl text-white">
+            <Clock size={20} className="text-emerald-400" />
+            <span className="font-black text-xl tracking-tight">{formatTime(state.timeLeft)}</span>
+          </div>
+        </div>
+        <div className="w-full h-1.5 bg-slate-100">
+          <div
+            className="h-full bg-emerald-500 transition-all duration-500"
+            style={{ width: `${((state.currentQuestionIndex + 1) / questions.length) * 100}%` }}
+          />
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 mt-16">
+      <div className="max-w-4xl mx-auto px-6 mt-12">
         <MotionDiv key={state.currentQuestionIndex} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="bg-white p-10 md:p-16 rounded-[3rem] shadow-xl border-t-8 border-slate-900">
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 leading-[1.2] mb-16 tracking-tight">
             {questions[state.currentQuestionIndex]?.question}
           </h2>
           <div className="grid gap-4">
             {questions[state.currentQuestionIndex]?.options.map((option, idx) => (
-              <button key={idx} onClick={() => handleAnswer(idx)} className="w-full text-left p-8 rounded-2xl border-2 border-slate-100 hover:border-blue-500 hover:bg-blue-50 transition-all flex items-center gap-6 group">
+              <button
+                key={idx}
+                onClick={() => handleAnswer(idx)}
+                aria-label={`Pilihan ${String.fromCharCode(65 + idx)}: ${option}`}
+                className="w-full text-left p-8 rounded-2xl border-2 border-slate-100 hover:border-blue-500 hover:bg-blue-50 transition-all flex items-center gap-6 group"
+              >
                 <div className="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black group-hover:bg-blue-600">{String.fromCharCode(65 + idx)}</div>
                 <span className="font-bold text-slate-700 text-xl">{option}</span>
               </button>
