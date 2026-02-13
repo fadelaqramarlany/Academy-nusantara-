@@ -8,11 +8,13 @@ const Contact: React.FC = () => {
     school: '',
     message: ''
   });
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Pesan Anda telah terkirim! Admin akan menghubungi Anda segera.");
+    setIsSubmitted(true);
     setFormData({ name: '', school: '', message: '' });
+    setTimeout(() => setIsSubmitted(false), 5000);
   };
 
   return (
@@ -68,8 +70,9 @@ const Contact: React.FC = () => {
             <h2 className="text-2xl font-bold text-slate-900 mb-8">Kirim Pesan Langsung</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
+                <label htmlFor="name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
                 <input 
+                  id="name"
                   type="text" 
                   required
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -79,8 +82,9 @@ const Contact: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Asal Sekolah</label>
+                <label htmlFor="school" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Asal Sekolah</label>
                 <input 
+                  id="school"
                   type="text" 
                   required
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -90,8 +94,9 @@ const Contact: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Isi Pesan</label>
+                <label htmlFor="message" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Isi Pesan</label>
                 <textarea 
+                  id="message"
                   required
                   rows={4}
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -102,10 +107,16 @@ const Contact: React.FC = () => {
               </div>
               <button 
                 type="submit"
-                className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl hover:bg-blue-700 transition flex items-center justify-center gap-2"
+                disabled={isSubmitted}
+                className={`w-full ${isSubmitted ? 'bg-emerald-600' : 'bg-blue-600 hover:bg-blue-700'} text-white py-5 rounded-2xl font-bold text-lg shadow-xl transition flex items-center justify-center gap-2`}
               >
-                Kirim Pesan <Send size={20} />
+                {isSubmitted ? 'Pesan Terkirim!' : 'Kirim Pesan'} <Send size={20} />
               </button>
+              {isSubmitted && (
+                <p className="text-emerald-600 text-center font-bold text-sm animate-pulse">
+                  Terima kasih! Admin akan segera menghubungi Anda.
+                </p>
+              )}
             </form>
             <p className="text-center text-slate-400 text-sm mt-8 italic">
               "Hubungi admin untuk pendaftaran festival dan kerja sama sekolah"
