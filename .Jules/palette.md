@@ -1,0 +1,3 @@
+## 2025-05-22 - Enhanced Form Feedback and Accessibility
+**Learning:** Browser `alert()` calls are jarring and break the immersion of a modern React app. Replacing them with inline success states using `framer-motion` and `lucide-react` icons significantly improves the user experience and perceived quality. Additionally, ensuring all form fields have explicit `id`/`htmlFor` associations is a fundamental accessibility requirement that is often overlooked in early-stage prototypes.
+**Action:** Always check for browser `alert()` usage in forms and propose more integrated feedback mechanisms. Ensure every form input has a unique `id` and a corresponding `label` with `htmlFor`.
