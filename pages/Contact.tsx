@@ -33,7 +33,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">WhatsApp Admin</p>
-                  <a href="https://wa.me/628827793100" className="text-2xl font-bold text-slate-900 hover:text-emerald-600 transition">0882 7793 100</a>
+                  <a href="https://wa.me/628827793100" aria-label="Chat Admin melalui WhatsApp" className="text-2xl font-bold text-slate-900 hover:text-emerald-600 transition">0882 7793 100</a>
                 </div>
               </div>
               <div className="flex gap-6">
@@ -68,8 +68,9 @@ const Contact: React.FC = () => {
             <h2 className="text-2xl font-bold text-slate-900 mb-8">Kirim Pesan Langsung</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
+                <label htmlFor="full-name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
                 <input 
+                  id="full-name"
                   type="text" 
                   required
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -79,8 +80,9 @@ const Contact: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Asal Sekolah</label>
+                <label htmlFor="school-origin" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Asal Sekolah</label>
                 <input 
+                  id="school-origin"
                   type="text" 
                   required
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -90,8 +92,9 @@ const Contact: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Isi Pesan</label>
+                <label htmlFor="message-body" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Isi Pesan</label>
                 <textarea 
+                  id="message-body"
                   required
                   rows={4}
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"

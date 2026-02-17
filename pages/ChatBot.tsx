@@ -115,7 +115,11 @@ const ChatBot: React.FC = () => {
               </div>
             </div>
           </div>
-          <button onClick={clearChat} className="p-3 text-slate-400 hover:text-red-400 hover:bg-white/5 rounded-2xl transition-all">
+          <button
+            onClick={clearChat}
+            className="p-3 text-slate-400 hover:text-red-400 hover:bg-white/5 rounded-2xl transition-all"
+            aria-label="Bersihkan obrolan"
+          >
             <Trash2 size={20} />
           </button>
         </div>
@@ -163,6 +167,7 @@ const ChatBot: React.FC = () => {
           <form onSubmit={handleSendMessage} className="relative">
             <input 
               type="text" 
+              aria-label="Tanya FAM AI"
               placeholder="Gunakan kecerdasan FAM AI..." 
               className="w-full bg-[#1e293b] border-2 border-white/5 rounded-[2.5rem] px-8 py-6 pr-20 text-white placeholder-slate-500 outline-none focus:border-emerald-500/50 transition-all shadow-2xl"
               value={input}
