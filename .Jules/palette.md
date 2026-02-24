@@ -1,0 +1,3 @@
+## 2026-02-24 - Enhanced Form Feedback & Accessibility
+**Learning:** Native browser alerts for form submissions are jarring and break the immersive experience of a modern React app. Inline success states with smooth transitions (Framer Motion) provide better feedback and maintain user flow. Proper label/input association and ARIA labels for icon-only elements are critical for accessibility but often overlooked in rapid development.
+**Action:** Always check for `alert()` calls in form handlers and replace them with state-driven inline feedback. Ensure every input has a linked label and every icon button has an aria-label.
