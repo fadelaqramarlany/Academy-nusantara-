@@ -1,17 +1,16 @@
 
 import React from 'react';
-import { Phone, Mail, MapPin, Send, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, MessageCircle, CheckCircle2 } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = React.useState({
-    name: '',
-    school: '',
-    message: ''
-  });
+  const [formData, setFormData] = React.useState({ name: '', school: '', message: '' });
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Pesan Anda telah terkirim! Admin akan menghubungi Anda segera.");
+    setIsSubmitted(true);
+    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
     setFormData({ name: '', school: '', message: '' });
   };
 
@@ -33,7 +32,13 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">WhatsApp Admin</p>
-                  <a href="https://wa.me/628827793100" className="text-2xl font-bold text-slate-900 hover:text-emerald-600 transition">0882 7793 100</a>
+                  <a
+                    href="https://wa.me/628827793100"
+                    className="text-2xl font-bold text-slate-900 hover:text-emerald-600 transition"
+                    aria-label="Hubungi via WhatsApp"
+                  >
+                    0882 7793 100
+                  </a>
                 </div>
               </div>
               <div className="flex gap-6">
@@ -64,52 +69,32 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-200">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8">Kirim Pesan Langsung</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
-                <input 
-                  type="text" 
-                  required
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
-                  placeholder="Masukkan nama Anda..."
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                />
+          <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-200 min-h-[500px] flex flex-col justify-center">
+            {isSubmitted ? (
+              <div className="text-center py-12" role="status" aria-live="polite">
+                <div className="w-24 h-24 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner"><CheckCircle2 size={48} /></div>
+                <h2 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tight">Terkirim!</h2>
+                <p className="text-slate-600 font-medium mb-10 leading-relaxed">Pesan Anda telah berhasil kami terima. Admin akan menghubungi Anda segera.</p>
+                <button onClick={() => setIsSubmitted(false)} className="text-blue-600 font-bold hover:underline uppercase tracking-widest text-xs">Kirim Pesan Lainnya</button>
               </div>
+            ) : (
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Asal Sekolah</label>
-                <input 
-                  type="text" 
-                  required
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
-                  placeholder="Masukkan nama sekolah..."
-                  value={formData.school}
-                  onChange={(e) => setFormData({...formData, school: e.target.value})}
-                />
+                <h2 className="text-2xl font-bold text-slate-900 mb-8">Kirim Pesan Langsung</h2>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {['name', 'school', 'message'].map((id) => (
+                    <div key={id}>
+                      <label htmlFor={id} className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">{id === 'name' ? 'Nama Lengkap' : id === 'school' ? 'Asal Sekolah' : 'Isi Pesan'}</label>
+                      {id === 'message' ? (
+                        <textarea id={id} required rows={4} className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Ketik pesan..." value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} />
+                      ) : (
+                        <input id={id} type="text" required className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder={`Masukkan ${id === 'name' ? 'nama' : 'sekolah'}...`} value={id === 'name' ? formData.name : formData.school} onChange={(e) => setFormData({...formData, [id]: e.target.value})} />
+                      )}
+                    </div>
+                  ))}
+                  <button type="submit" className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl hover:bg-blue-700 transition flex items-center justify-center gap-2 active:scale-95">Kirim Pesan <Send size={20} /></button>
+                </form>
               </div>
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Isi Pesan</label>
-                <textarea 
-                  required
-                  rows={4}
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
-                  placeholder="Ketik pesan atau permohonan pendaftaran festival..."
-                  value={formData.message}
-                  onChange={(e) => setFormData({...formData, message: e.target.value})}
-                ></textarea>
-              </div>
-              <button 
-                type="submit"
-                className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl hover:bg-blue-700 transition flex items-center justify-center gap-2"
-              >
-                Kirim Pesan <Send size={20} />
-              </button>
-            </form>
-            <p className="text-center text-slate-400 text-sm mt-8 italic">
-              "Hubungi admin untuk pendaftaran festival dan kerja sama sekolah"
-            </p>
+            )}
           </div>
         </div>
       </div>
