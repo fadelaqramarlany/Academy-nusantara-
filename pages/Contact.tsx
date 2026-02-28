@@ -1,6 +1,8 @@
 
 import React from 'react';
-import { Phone, Mail, MapPin, Send, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, MessageCircle, CheckCircle2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = React.useState({
@@ -8,10 +10,17 @@ const Contact: React.FC = () => {
     school: '',
     message: ''
   });
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Pesan Anda telah terkirim! Admin akan menghubungi Anda segera.");
+    setIsSubmitted(true);
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#10b981', '#3b82f6', '#0f172a']
+    });
     setFormData({ name: '', school: '', message: '' });
   };
 
@@ -64,49 +73,86 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-200">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8">Kirim Pesan Langsung</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
-                <input 
-                  type="text" 
-                  required
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
-                  placeholder="Masukkan nama Anda..."
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Asal Sekolah</label>
-                <input 
-                  type="text" 
-                  required
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
-                  placeholder="Masukkan nama sekolah..."
-                  value={formData.school}
-                  onChange={(e) => setFormData({...formData, school: e.target.value})}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Isi Pesan</label>
-                <textarea 
-                  required
-                  rows={4}
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
-                  placeholder="Ketik pesan atau permohonan pendaftaran festival..."
-                  value={formData.message}
-                  onChange={(e) => setFormData({...formData, message: e.target.value})}
-                ></textarea>
-              </div>
-              <button 
-                type="submit"
-                className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl hover:bg-blue-700 transition flex items-center justify-center gap-2"
-              >
-                Kirim Pesan <Send size={20} />
-              </button>
-            </form>
+          <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-200 min-h-[500px] flex flex-col justify-center">
+            <AnimatePresence mode="wait">
+              {!isSubmitted ? (
+                <motion.div
+                  key="form"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                >
+                  <h2 className="text-2xl font-bold text-slate-900 mb-8">Kirim Pesan Langsung</h2>
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
+                      <input
+                        id="name"
+                        type="text"
+                        required
+                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+                        placeholder="Masukkan nama Anda..."
+                        value={formData.name}
+                        onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="school" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Asal Sekolah</label>
+                      <input
+                        id="school"
+                        type="text"
+                        required
+                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+                        placeholder="Masukkan nama sekolah..."
+                        value={formData.school}
+                        onChange={(e) => setFormData({...formData, school: e.target.value})}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Isi Pesan</label>
+                      <textarea
+                        id="message"
+                        required
+                        rows={4}
+                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+                        placeholder="Ketik pesan atau permohonan pendaftaran festival..."
+                        value={formData.message}
+                        onChange={(e) => setFormData({...formData, message: e.target.value})}
+                      ></textarea>
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl hover:bg-blue-700 transition flex items-center justify-center gap-2"
+                    >
+                      Kirim Pesan <Send size={20} />
+                    </button>
+                  </form>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-center py-12"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <CheckCircle2 size={48} />
+                  </div>
+                  <h2 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tight">Terima Kasih!</h2>
+                  <p className="text-slate-600 text-lg mb-8 leading-relaxed">
+                    Pesan Anda telah kami terima. Tim Admin Academy Nusantara akan menghubungi Anda melalui email atau WhatsApp dalam waktu 1x24 jam.
+                  </p>
+                  <button
+                    onClick={() => setIsSubmitted(false)}
+                    className="text-blue-600 font-bold hover:underline uppercase tracking-widest text-sm"
+                  >
+                    Kirim pesan lain
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
             <p className="text-center text-slate-400 text-sm mt-8 italic">
               "Hubungi admin untuk pendaftaran festival dan kerja sama sekolah"
             </p>
