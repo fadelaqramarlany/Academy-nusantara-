@@ -33,7 +33,13 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">WhatsApp Admin</p>
-                  <a href="https://wa.me/628827793100" className="text-2xl font-bold text-slate-900 hover:text-emerald-600 transition">0882 7793 100</a>
+                  <a
+                    href="https://wa.me/628827793100"
+                    className="text-2xl font-bold text-slate-900 hover:text-emerald-600 transition active:scale-95 inline-block"
+                    aria-label="Hubungi kami di WhatsApp"
+                  >
+                    0882 7793 100
+                  </a>
                 </div>
               </div>
               <div className="flex gap-6">
@@ -68,8 +74,9 @@ const Contact: React.FC = () => {
             <h2 className="text-2xl font-bold text-slate-900 mb-8">Kirim Pesan Langsung</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
+                <label htmlFor="contact-name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide cursor-pointer">Nama Lengkap</label>
                 <input 
+                  id="contact-name"
                   type="text" 
                   required
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -79,8 +86,9 @@ const Contact: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Asal Sekolah</label>
+                <label htmlFor="contact-school" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide cursor-pointer">Asal Sekolah</label>
                 <input 
+                  id="contact-school"
                   type="text" 
                   required
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -90,8 +98,9 @@ const Contact: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Isi Pesan</label>
+                <label htmlFor="contact-message" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide cursor-pointer">Isi Pesan</label>
                 <textarea 
+                  id="contact-message"
                   required
                   rows={4}
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -102,7 +111,7 @@ const Contact: React.FC = () => {
               </div>
               <button 
                 type="submit"
-                className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl hover:bg-blue-700 transition flex items-center justify-center gap-2"
+                className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl hover:bg-blue-700 transition active:scale-95 flex items-center justify-center gap-2"
               >
                 Kirim Pesan <Send size={20} />
               </button>
