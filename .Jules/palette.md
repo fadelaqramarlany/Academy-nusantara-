@@ -1,0 +1,3 @@
+## 2025-05-14 - Accessible Contact Forms and Tactile Feedback
+**Learning:** In React applications, basic accessibility like linking labels to inputs (`htmlFor`/`id`) is often overlooked but critical for screen readers and improving the hit area for focusing fields. Additionally, providing immediate tactile feedback (like scaling down on click) significantly improves the perceived responsiveness and "feel" of the interface.
+**Action:** Always ensure form labels are explicitly linked to their inputs. Use Tailwind's `active:scale-95` and `transition-transform` for a quick, delightful tactile response on interactive elements.
