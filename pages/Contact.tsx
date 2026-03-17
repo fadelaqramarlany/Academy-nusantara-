@@ -1,6 +1,10 @@
 
 import React from 'react';
-import { Phone, Mail, MapPin, Send, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, MessageCircle, CheckCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
+
+const MotionDiv = motion.div as any;
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = React.useState({
@@ -8,10 +12,17 @@ const Contact: React.FC = () => {
     school: '',
     message: ''
   });
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Pesan Anda telah terkirim! Admin akan menghubungi Anda segera.");
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#10b981', '#3b82f6', '#1e3a8a']
+    });
+    setIsSubmitted(true);
     setFormData({ name: '', school: '', message: '' });
   };
 
@@ -33,7 +44,13 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">WhatsApp Admin</p>
-                  <a href="https://wa.me/628827793100" className="text-2xl font-bold text-slate-900 hover:text-emerald-600 transition">0882 7793 100</a>
+                  <a
+                    href="https://wa.me/628827793100"
+                    aria-label="Hubungi kami di WhatsApp"
+                    className="text-2xl font-bold text-slate-900 hover:text-emerald-600 transition"
+                  >
+                    0882 7793 100
+                  </a>
                 </div>
               </div>
               <div className="flex gap-6">
@@ -64,52 +81,90 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-200">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8">Kirim Pesan Langsung</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
-                <input 
-                  type="text" 
-                  required
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
-                  placeholder="Masukkan nama Anda..."
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Asal Sekolah</label>
-                <input 
-                  type="text" 
-                  required
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
-                  placeholder="Masukkan nama sekolah..."
-                  value={formData.school}
-                  onChange={(e) => setFormData({...formData, school: e.target.value})}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Isi Pesan</label>
-                <textarea 
-                  required
-                  rows={4}
-                  className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
-                  placeholder="Ketik pesan atau permohonan pendaftaran festival..."
-                  value={formData.message}
-                  onChange={(e) => setFormData({...formData, message: e.target.value})}
-                ></textarea>
-              </div>
-              <button 
-                type="submit"
-                className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl hover:bg-blue-700 transition flex items-center justify-center gap-2"
-              >
-                Kirim Pesan <Send size={20} />
-              </button>
-            </form>
-            <p className="text-center text-slate-400 text-sm mt-8 italic">
-              "Hubungi admin untuk pendaftaran festival dan kerja sama sekolah"
-            </p>
+          <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-200 min-h-[500px] flex flex-col">
+            <AnimatePresence mode="wait">
+              {!isSubmitted ? (
+                <MotionDiv
+                  key="form"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="flex-grow flex flex-col"
+                >
+                  <h2 className="text-2xl font-bold text-slate-900 mb-8">Kirim Pesan Langsung</h2>
+                  <form onSubmit={handleSubmit} className="space-y-6 flex-grow">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
+                      <input
+                        id="name"
+                        type="text"
+                        required
+                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+                        placeholder="Masukkan nama Anda..."
+                        value={formData.name}
+                        onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="school" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Asal Sekolah</label>
+                      <input
+                        id="school"
+                        type="text"
+                        required
+                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+                        placeholder="Masukkan nama sekolah..."
+                        value={formData.school}
+                        onChange={(e) => setFormData({...formData, school: e.target.value})}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="message" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Isi Pesan</label>
+                      <textarea
+                        id="message"
+                        required
+                        rows={4}
+                        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
+                        placeholder="Ketik pesan atau permohonan pendaftaran festival..."
+                        value={formData.message}
+                        onChange={(e) => setFormData({...formData, message: e.target.value})}
+                      ></textarea>
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl hover:bg-blue-700 active:scale-95 transition-all flex items-center justify-center gap-2"
+                    >
+                      Kirim Pesan <Send size={20} />
+                    </button>
+                  </form>
+                  <p className="text-center text-slate-400 text-sm mt-8 italic">
+                    "Hubungi admin untuk pendaftaran festival dan kerja sama sekolah"
+                  </p>
+                </MotionDiv>
+              ) : (
+                <MotionDiv
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex-grow flex flex-col items-center justify-center text-center space-y-6"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <div className="w-24 h-24 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
+                    <CheckCircle size={48} />
+                  </div>
+                  <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">Pesan Terkirim!</h2>
+                  <p className="text-lg text-slate-600 max-w-sm font-medium">
+                    Terima kasih telah menghubungi Academy Nusantara. Admin akan segera meninjau pesan Anda dan memberikan tanggapan.
+                  </p>
+                  <button
+                    onClick={() => setIsSubmitted(false)}
+                    className="mt-8 text-blue-600 font-bold uppercase tracking-widest text-sm hover:text-blue-800 transition"
+                  >
+                    Kirim Pesan Lainnya
+                  </button>
+                </MotionDiv>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
