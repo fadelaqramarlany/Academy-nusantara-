@@ -3,7 +3,6 @@ import React from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Trophy, ChevronRight, ArrowLeft, Brain, School, User, BookOpen, Clock, Zap } from 'lucide-react';
-import confetti from 'canvas-confetti';
 import { SAMPLE_QUESTIONS } from '../constants';
 import { Question, QuizState } from '../types';
 
@@ -90,9 +89,6 @@ const Quiz: React.FC = () => {
       }
     });
 
-    if (state.currentQuestionIndex === questions.length - 1) {
-      confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
-    }
   };
 
   const formatTime = (seconds: number) => {
