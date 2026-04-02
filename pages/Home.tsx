@@ -78,26 +78,26 @@ const Home: React.FC = () => {
               </div>
               <form className="grid md:grid-cols-2 gap-6" onSubmit={(e) => { e.preventDefault(); alert("Pendaftaran Berhasil! Silakan mulai kuis pertama Anda."); }}>
                  <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Nama Lengkap</label>
-                    <input type="text" placeholder="Nama sesuai rapor..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
+                    <label htmlFor="name" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 cursor-pointer">Nama Lengkap</label>
+                    <input id="name" type="text" placeholder="Nama sesuai rapor..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold transition-all" />
                  </div>
                  <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">NISN</label>
-                    <input type="text" placeholder="Nomor Induk Siswa..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
+                    <label htmlFor="nisn" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 cursor-pointer">NISN</label>
+                    <input id="nisn" type="text" placeholder="Nomor Induk Siswa..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold transition-all" />
                  </div>
                  <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Asal Sekolah</label>
-                    <input type="text" placeholder="Nama sekolah lengkap..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
+                    <label htmlFor="school" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 cursor-pointer">Asal Sekolah</label>
+                    <input id="school" type="text" placeholder="Nama sekolah lengkap..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold transition-all" />
                  </div>
                  <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Jenjang</label>
-                    <select className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold">
+                    <label htmlFor="level" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 cursor-pointer">Jenjang</label>
+                    <select id="level" className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold cursor-pointer transition-all">
                        <option>SD</option>
                        <option>SMP</option>
                        <option>SMA</option>
                     </select>
                  </div>
-                 <button className="md:col-span-2 bg-slate-900 text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-xl mt-4">Simpan Data Peserta</button>
+                 <button className="md:col-span-2 bg-slate-900 text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 active:scale-95 transition-all shadow-xl mt-4">Simpan Data Peserta</button>
               </form>
            </div>
         </div>
