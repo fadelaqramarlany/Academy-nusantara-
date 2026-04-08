@@ -1,0 +1,3 @@
+## 2026-03-29 - [Form Accessibility & Tactile Feedback]
+**Learning:** Improving form accessibility via `id`/`htmlFor` and providing tactile feedback with `active:scale-95` are high-impact micro-UX wins that stay within tight line-count constraints (< 50 lines).
+**Action:** Prioritize surgical accessibility improvements and Tailwind-based interaction states over complex state-based UI refactors when working on micro-UX tasks.
