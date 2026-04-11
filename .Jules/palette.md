@@ -1,0 +1,3 @@
+## 2026-04-09 - Enhanced Registration Form UX & Accessibility
+**Learning:** Replacing native `alert()` with an inline success state using `framer-motion` significantly improves the "flow" of the application, keeping users in the context of their task. Accessibility improvements like linking labels to inputs and adding tactile feedback (active:scale-95) are essential for a professional micro-UX feel.
+**Action:** Always check for native alerts in forms and replace them with animated, context-aware success messages. Ensure all form fields have proper `id`/`htmlFor` associations.
