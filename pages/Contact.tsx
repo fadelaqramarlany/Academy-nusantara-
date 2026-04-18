@@ -8,11 +8,13 @@ const Contact: React.FC = () => {
     school: '',
     message: ''
   });
+  const [isSuccess, setIsSuccess] = React.useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Pesan Anda telah terkirim! Admin akan menghubungi Anda segera.");
+    setIsSuccess(true);
     setFormData({ name: '', school: '', message: '' });
+    setTimeout(() => setIsSuccess(false), 3000);
   };
 
   return (
@@ -33,7 +35,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">WhatsApp Admin</p>
-                  <a href="https://wa.me/628827793100" className="text-2xl font-bold text-slate-900 hover:text-emerald-600 transition">0882 7793 100</a>
+                  <a href="https://wa.me/628827793100" aria-label="Hubungi kami di WhatsApp" className="text-2xl font-bold text-slate-900 hover:text-emerald-600 transition">0882 7793 100</a>
                 </div>
               </div>
               <div className="flex gap-6">
@@ -68,8 +70,9 @@ const Contact: React.FC = () => {
             <h2 className="text-2xl font-bold text-slate-900 mb-8">Kirim Pesan Langsung</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
+                <label htmlFor="name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide cursor-pointer">Nama Lengkap</label>
                 <input 
+                  id="name"
                   type="text" 
                   required
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -79,8 +82,9 @@ const Contact: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Asal Sekolah</label>
+                <label htmlFor="school" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide cursor-pointer">Asal Sekolah</label>
                 <input 
+                  id="school"
                   type="text" 
                   required
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -90,8 +94,9 @@ const Contact: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Isi Pesan</label>
+                <label htmlFor="message" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide cursor-pointer">Isi Pesan</label>
                 <textarea 
+                  id="message"
                   required
                   rows={4}
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -102,9 +107,16 @@ const Contact: React.FC = () => {
               </div>
               <button 
                 type="submit"
-                className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl hover:bg-blue-700 transition flex items-center justify-center gap-2"
+                disabled={isSuccess}
+                className={`w-full py-5 rounded-2xl font-bold text-lg shadow-xl transition-all active:scale-95 flex items-center justify-center gap-2 ${
+                  isSuccess ? 'bg-emerald-600 text-white' : 'bg-blue-600 text-white hover:bg-blue-700'
+                }`}
               >
-                Kirim Pesan <Send size={20} />
+                {isSuccess ? (
+                  <>Berhasil Terkirim!</>
+                ) : (
+                  <>Kirim Pesan <Send size={20} /></>
+                )}
               </button>
             </form>
             <p className="text-center text-slate-400 text-sm mt-8 italic">
