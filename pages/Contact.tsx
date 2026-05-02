@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Phone, Mail, MapPin, Send, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, MessageCircle, CheckCircle2 } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = React.useState({
@@ -8,10 +8,11 @@ const Contact: React.FC = () => {
     school: '',
     message: ''
   });
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Pesan Anda telah terkirim! Admin akan menghubungi Anda segera.");
+    setIsSubmitted(true);
     setFormData({ name: '', school: '', message: '' });
   };
 
@@ -64,12 +65,24 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-200">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8">Kirim Pesan Langsung</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
+          <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-200 min-h-[500px] flex flex-col justify-center">
+            {isSubmitted ? (
+              <div className="text-center py-10 animate-in fade-in zoom-in duration-500">
+                <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle2 size={40} />
+                </div>
+                <h2 className="text-3xl font-black text-slate-900 mb-4 uppercase tracking-tighter">PESAN TERKIRIM!</h2>
+                <p className="text-slate-600 font-medium mb-8 leading-relaxed">Pesan Anda telah kami terima. Admin Academy Nusantara akan segera menghubungi Anda.</p>
+                <button onClick={() => setIsSubmitted(false)} className="bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-600 transition-all active:scale-95 shadow-lg uppercase tracking-wider text-sm">Kirim Pesan Lagi</button>
+              </div>
+            ) : (
+              <>
+                <h2 className="text-2xl font-bold text-slate-900 mb-8">Kirim Pesan Langsung</h2>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide cursor-pointer">Nama Lengkap</label>
                 <input 
+                      id="name"
                   type="text" 
                   required
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -79,8 +92,9 @@ const Contact: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Asal Sekolah</label>
+                    <label htmlFor="school" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide cursor-pointer">Asal Sekolah</label>
                 <input 
+                      id="school"
                   type="text" 
                   required
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -90,8 +104,9 @@ const Contact: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">Isi Pesan</label>
+                    <label htmlFor="message" className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide cursor-pointer">Isi Pesan</label>
                 <textarea 
+                      id="message"
                   required
                   rows={4}
                   className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition"
@@ -100,16 +115,18 @@ const Contact: React.FC = () => {
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
                 ></textarea>
               </div>
-              <button 
-                type="submit"
-                className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl hover:bg-blue-700 transition flex items-center justify-center gap-2"
-              >
-                Kirim Pesan <Send size={20} />
-              </button>
-            </form>
-            <p className="text-center text-slate-400 text-sm mt-8 italic">
-              "Hubungi admin untuk pendaftaran festival dan kerja sama sekolah"
-            </p>
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold text-lg shadow-xl hover:bg-blue-700 transition flex items-center justify-center gap-2 active:scale-95"
+                  >
+                    Kirim Pesan <Send size={20} />
+                  </button>
+                </form>
+                <p className="text-center text-slate-400 text-sm mt-8 italic">
+                  "Hubungi admin untuk pendaftaran festival dan kerja sama sekolah"
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>
