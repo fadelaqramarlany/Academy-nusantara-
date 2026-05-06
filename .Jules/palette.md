@@ -1,0 +1,3 @@
+## 2026-04-09 - [Micro-UX Improvement Strategy]
+**Learning:** Native browser alerts interrupt the user flow and feel disconnected from the application's design system. Replacing them with inline animated success states using `framer-motion` provides a much more cohesive and pleasant experience. Additionally, ensuring all form fields have proper `id` and `htmlFor` associations is a fundamental but often overlooked accessibility win.
+**Action:** Always look for `alert()` calls in form submissions and replace them with inline feedback. Consistently apply tactile feedback (e.g., `active:scale-95`) to interactive elements.
