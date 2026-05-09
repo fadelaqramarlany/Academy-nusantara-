@@ -25,7 +25,9 @@ const ChatBot: React.FC = () => {
   ]);
   const [input, setInput] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
+  const [showConfirmClear, setShowConfirmClear] = React.useState(false);
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
+  const confirmTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -34,6 +36,12 @@ const ChatBot: React.FC = () => {
   React.useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading]);
+
+  React.useEffect(() => {
+    return () => {
+      if (confirmTimeoutRef.current) clearTimeout(confirmTimeoutRef.current);
+    };
+  }, []);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,14 +97,20 @@ const ChatBot: React.FC = () => {
   };
 
   const clearChat = () => {
-    if (confirm("Bersihkan seluruh memori percakapan sesi ini?")) {
-      setMessages([{
-        id: '1',
-        role: 'fam',
-        text: 'Memori dibersihkan. Saya FAM AI, siap melayani diskusi baru.',
-        timestamp: new Date()
-      }]);
+    if (!showConfirmClear) {
+      setShowConfirmClear(true);
+      if (confirmTimeoutRef.current) clearTimeout(confirmTimeoutRef.current);
+      confirmTimeoutRef.current = setTimeout(() => setShowConfirmClear(false), 3000);
+      return;
     }
+    if (confirmTimeoutRef.current) clearTimeout(confirmTimeoutRef.current);
+    setMessages([{
+      id: '1',
+      role: 'fam',
+      text: 'Memori dibersihkan. Saya FAM AI, siap melayani diskusi baru.',
+      timestamp: new Date()
+    }]);
+    setShowConfirmClear(false);
   };
 
   return (
@@ -115,7 +129,11 @@ const ChatBot: React.FC = () => {
               </div>
             </div>
           </div>
-          <button onClick={clearChat} className="p-3 text-slate-400 hover:text-red-400 hover:bg-white/5 rounded-2xl transition-all">
+          <button
+            onClick={clearChat}
+            aria-label={showConfirmClear ? "Konfirmasi hapus semua pesan" : "Hapus semua pesan"}
+            className={`p-3 rounded-2xl transition-all active:scale-95 ${showConfirmClear ? 'bg-red-500/20 text-red-400' : 'text-slate-400 hover:text-red-400 hover:bg-white/5'}`}
+          >
             <Trash2 size={20} />
           </button>
         </div>
@@ -163,13 +181,19 @@ const ChatBot: React.FC = () => {
           <form onSubmit={handleSendMessage} className="relative">
             <input 
               type="text" 
+              aria-label="Pesan FAM AI"
               placeholder="Gunakan kecerdasan FAM AI..." 
               className="w-full bg-[#1e293b] border-2 border-white/5 rounded-[2.5rem] px-8 py-6 pr-20 text-white placeholder-slate-500 outline-none focus:border-emerald-500/50 transition-all shadow-2xl"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={isLoading}
             />
-            <button type="submit" disabled={!input.trim() || isLoading} className={`absolute right-3 top-3 w-14 h-14 rounded-full flex items-center justify-center transition-all ${input.trim() && !isLoading ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-600'}`}>
+            <button
+              type="submit"
+              aria-label="Kirim pesan"
+              disabled={!input.trim() || isLoading}
+              className={`absolute right-3 top-3 w-14 h-14 rounded-full flex items-center justify-center transition-all active:scale-95 ${input.trim() && !isLoading ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-600'}`}
+            >
               <Send size={24} />
             </button>
           </form>
