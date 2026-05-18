@@ -115,7 +115,11 @@ const ChatBot: React.FC = () => {
               </div>
             </div>
           </div>
-          <button onClick={clearChat} className="p-3 text-slate-400 hover:text-red-400 hover:bg-white/5 rounded-2xl transition-all">
+          <button
+            onClick={clearChat}
+            className="p-3 text-slate-400 hover:text-red-400 hover:bg-white/5 rounded-2xl active:scale-95 transition-all"
+            aria-label="Bersihkan obrolan"
+          >
             <Trash2 size={20} />
           </button>
         </div>
@@ -168,8 +172,14 @@ const ChatBot: React.FC = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={isLoading}
+              aria-label="Pesan FAM AI"
             />
-            <button type="submit" disabled={!input.trim() || isLoading} className={`absolute right-3 top-3 w-14 h-14 rounded-full flex items-center justify-center transition-all ${input.trim() && !isLoading ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-600'}`}>
+            <button
+              type="submit"
+              disabled={!input.trim() || isLoading}
+              className={`absolute right-3 top-3 w-14 h-14 rounded-full flex items-center justify-center active:scale-95 transition-all ${input.trim() && !isLoading ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-600'}`}
+              aria-label="Kirim pesan"
+            >
               <Send size={24} />
             </button>
           </form>

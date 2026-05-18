@@ -16,6 +16,9 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:bg-white focus:p-4 focus:text-blue-600 focus:font-bold focus:shadow-xl focus:rounded-b-xl focus:left-1/2 focus:-translate-x-1/2">
+        Lanjut ke konten utama
+      </a>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -36,7 +39,12 @@ const Navbar = () => {
           </div>
 
           <div className="md:hidden flex items-center">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-slate-600 p-2">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-slate-600 p-2 active:scale-95 transition-all"
+              aria-label="Tutup/Buka menu navigasi"
+              aria-expanded={isOpen}
+            >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -81,7 +89,11 @@ const Footer = () => (
           <p className="text-white text-lg font-black tracking-tighter uppercase mb-2">FADEL AQRAM MARPAUNG</p>
           <p className="text-slate-500 text-xs font-bold uppercase mb-4">Direktur Utama Academy Nusantara</p>
           <div className="flex space-x-4">
-            <a href="https://wa.me/628827793100" className="bg-white/5 border border-white/10 p-3 rounded-2xl hover:bg-emerald-600 hover:text-white transition-all">
+            <a
+              href="https://wa.me/628827793100"
+              className="bg-white/5 border border-white/10 p-3 rounded-2xl hover:bg-emerald-600 hover:text-white active:scale-95 transition-all"
+              aria-label="Hubungi kami di WhatsApp"
+            >
               <Phone size={20} />
             </a>
           </div>
@@ -99,7 +111,7 @@ export default function App() {
     <Router>
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-grow">
+        <main id="main-content" tabIndex={-1} className="flex-grow outline-none">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/categories/:level" element={<Categories />} />
