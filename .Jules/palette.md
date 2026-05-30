@@ -1,0 +1,3 @@
+## 2025-05-15 - [Inline Success States & Accessibility Linking]
+**Learning:** Replacing browser `alert()` with inline success states significantly improves user flow. However, in this project's `HashRouter` setup, clicking internal anchor links (e.g., `<a href="#id">`) can cause Playwright to attempt a route change instead of scrolling, leading to "No routes matched" errors.
+**Action:** When implementing anchor-based navigation, verify with `scroll_into_view_if_needed()` in tests. Always ensure accessibility linking (`id`/`htmlFor`) is applied to all form fields to improve hit targets and screen reader support.
