@@ -1,0 +1,3 @@
+## 2026-06-02 - Enhanced Registration Form Feedback & Accessibility
+**Learning:** Native browser alerts disrupt the user flow and feel disconnected from the app's visual language. Replacing them with inline success states using Framer Motion (MotionDiv) provides a much more integrated and "high-end" feel. Additionally, explicitly linking labels to inputs via `htmlFor` and `id` is crucial for both accessibility and improving the clickable area of form fields.
+**Action:** Always prefer inline conditional success states over native `alert()` and ensure every form input has a unique `id` paired with a `label[htmlFor]`.
