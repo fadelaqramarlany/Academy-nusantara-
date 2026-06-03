@@ -1,0 +1,3 @@
+## 2026-06-03 - Enhanced Registration Form UX and Accessibility
+**Learning:** Replacing browser-native `alert()` calls with state-driven, animated inline success messages significantly enhances the 'delight' and professionalism of the user experience. Additionally, explicit `id` and `htmlFor` mapping is essential for form accessibility, ensuring screen readers can correctly associate labels with their respective inputs.
+**Action:** Prioritize state-driven success/error UI over native alerts in all form-related tasks. Always verify and implement proper ARIA attributes and label-input associations for every interactive form element.
