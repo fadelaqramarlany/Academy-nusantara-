@@ -132,7 +132,7 @@ const Home: React.FC = () => {
                 </div>
                 <Link 
                   to={`/categories/${item.level}`}
-                  className="mt-auto w-full py-5 rounded-[2rem] font-black bg-slate-900 text-white hover:bg-emerald-600 transition-all uppercase tracking-[0.2em] text-sm shadow-lg"
+                  className="mt-auto w-full py-5 rounded-[2rem] font-black bg-slate-900 text-white hover:bg-emerald-600 transition-all uppercase tracking-[0.2em] text-sm shadow-lg active:scale-95"
                 >
                   Pilih Mapel
                 </Link>

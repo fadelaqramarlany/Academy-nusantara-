@@ -36,7 +36,12 @@ const Navbar = () => {
           </div>
 
           <div className="md:hidden flex items-center">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-slate-600 p-2">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-slate-600 p-2 active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg outline-none"
+              aria-label={isOpen ? "Tutup menu" : "Buka menu"}
+              aria-expanded={isOpen}
+            >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -81,7 +86,11 @@ const Footer = () => (
           <p className="text-white text-lg font-black tracking-tighter uppercase mb-2">FADEL AQRAM MARPAUNG</p>
           <p className="text-slate-500 text-xs font-bold uppercase mb-4">Direktur Utama Academy Nusantara</p>
           <div className="flex space-x-4">
-            <a href="https://wa.me/628827793100" className="bg-white/5 border border-white/10 p-3 rounded-2xl hover:bg-emerald-600 hover:text-white transition-all">
+            <a
+              href="https://wa.me/628827793100"
+              className="bg-white/5 border border-white/10 p-3 rounded-2xl hover:bg-emerald-600 hover:text-white transition-all active:scale-95 focus-visible:ring-2 focus-visible:ring-emerald-500 outline-none"
+              aria-label="WhatsApp Admin"
+            >
               <Phone size={20} />
             </a>
           </div>
@@ -98,8 +107,11 @@ export default function App() {
   return (
     <Router>
       <div className="min-h-screen flex flex-col">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:bg-white focus:text-blue-600 focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-xl focus:font-bold outline-none ring-2 ring-blue-600">
+          Lanjut ke konten utama
+        </a>
         <Navbar />
-        <main className="flex-grow">
+        <main id="main-content" tabIndex={-1} className="flex-grow outline-none">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/categories/:level" element={<Categories />} />
