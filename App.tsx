@@ -28,15 +28,20 @@ const Navbar = () => {
           </div>
           
           <div className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wider flex items-center gap-1.5 transition-colors"><HomeIcon size={16} /> Beranda</Link>
-            <Link to="/festival" className="text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wider flex items-center gap-1.5 transition-colors"><Trophy size={16} /> Festival</Link>
-            <Link to="/chat" className="text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wider flex items-center gap-1.5 transition-colors"><MessageSquare size={16} /> Tanya FAM AI</Link>
-            <Link to="/tentang" className="text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wider flex items-center gap-1.5 transition-colors"><Info size={16} /> Tentang</Link>
-            <Link to="/kontak" className="text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wider flex items-center gap-1.5 transition-colors"><Phone size={16} /> Kontak</Link>
+            <Link to="/" className="text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wider flex items-center gap-1.5 active:scale-95 transition-all"><HomeIcon size={16} /> Beranda</Link>
+            <Link to="/festival" className="text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wider flex items-center gap-1.5 active:scale-95 transition-all"><Trophy size={16} /> Festival</Link>
+            <Link to="/chat" className="text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wider flex items-center gap-1.5 active:scale-95 transition-all"><MessageSquare size={16} /> Tanya FAM AI</Link>
+            <Link to="/tentang" className="text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wider flex items-center gap-1.5 active:scale-95 transition-all"><Info size={16} /> Tentang</Link>
+            <Link to="/kontak" className="text-slate-600 hover:text-blue-600 font-bold text-sm uppercase tracking-wider flex items-center gap-1.5 active:scale-95 transition-all"><Phone size={16} /> Kontak</Link>
           </div>
 
           <div className="md:hidden flex items-center">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-slate-600 p-2">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-slate-600 p-2 active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg"
+              aria-label={isOpen ? "Tutup menu" : "Buka menu"}
+              aria-expanded={isOpen}
+            >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -81,7 +86,11 @@ const Footer = () => (
           <p className="text-white text-lg font-black tracking-tighter uppercase mb-2">FADEL AQRAM MARPAUNG</p>
           <p className="text-slate-500 text-xs font-bold uppercase mb-4">Direktur Utama Academy Nusantara</p>
           <div className="flex space-x-4">
-            <a href="https://wa.me/628827793100" className="bg-white/5 border border-white/10 p-3 rounded-2xl hover:bg-emerald-600 hover:text-white transition-all">
+            <a
+              href="https://wa.me/628827793100"
+              className="bg-white/5 border border-white/10 p-3 rounded-2xl hover:bg-emerald-600 hover:text-white active:scale-95 transition-all"
+              aria-label="WhatsApp Admin"
+            >
               <Phone size={20} />
             </a>
           </div>
@@ -97,9 +106,12 @@ const Footer = () => (
 export default function App() {
   return (
     <Router>
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-lg z-[100] font-bold">
+        Lanjut ke konten utama
+      </a>
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-grow">
+        <main id="main-content" className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/categories/:level" element={<Categories />} />
