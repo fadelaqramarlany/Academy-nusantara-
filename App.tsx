@@ -97,9 +97,15 @@ const Footer = () => (
 export default function App() {
   return (
     <Router>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 bg-emerald-600 text-white px-4 py-2 rounded-lg z-[60] font-bold"
+      >
+        Lanjut ke konten utama
+      </a>
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-grow">
+        <main id="main-content" className="flex-grow outline-none" tabIndex={-1}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/categories/:level" element={<Categories />} />
