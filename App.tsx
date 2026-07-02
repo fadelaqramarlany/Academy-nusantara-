@@ -36,7 +36,12 @@ const Navbar = () => {
           </div>
 
           <div className="md:hidden flex items-center">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-slate-600 p-2">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-slate-600 p-2 active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-blue-500 outline-none"
+              aria-label={isOpen ? "Tutup menu" : "Buka menu"}
+              aria-expanded={isOpen}
+            >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
