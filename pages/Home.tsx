@@ -1,12 +1,14 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Trophy, BookOpen, GraduationCap, ChevronRight, Award, Zap, Brain, UserPlus } from 'lucide-react';
+import { Trophy, BookOpen, GraduationCap, ChevronRight, Award, Zap, Brain, UserPlus, CircleCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const MotionDiv = motion.div as any;
 
 const Home: React.FC = () => {
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
+
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
@@ -76,29 +78,34 @@ const Home: React.FC = () => {
                  <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">PENDAFTARAN SISWA</h2>
                  <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mt-2">Masuk ke Database Prestasi Nasional</p>
               </div>
-              <form className="grid md:grid-cols-2 gap-6" onSubmit={(e) => { e.preventDefault(); alert("Pendaftaran Berhasil! Silakan mulai kuis pertama Anda."); }}>
-                 <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Nama Lengkap</label>
-                    <input type="text" placeholder="Nama sesuai rapor..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
-                 </div>
-                 <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">NISN</label>
-                    <input type="text" placeholder="Nomor Induk Siswa..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
-                 </div>
-                 <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Asal Sekolah</label>
-                    <input type="text" placeholder="Nama sekolah lengkap..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
-                 </div>
-                 <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Jenjang</label>
-                    <select className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold">
-                       <option>SD</option>
-                       <option>SMP</option>
-                       <option>SMA</option>
+              {!isSubmitted ? (
+                <form className="grid md:grid-cols-2 gap-6" onSubmit={(e) => { e.preventDefault(); setIsSubmitted(true); }}>
+                  {[
+                    { id: 'student-name', label: 'Nama Lengkap', placeholder: 'Nama sesuai rapor...' },
+                    { id: 'student-nisn', label: 'NISN', placeholder: 'Nomor Induk Siswa...' },
+                    { id: 'school-name', label: 'Asal Sekolah', placeholder: 'Nama sekolah lengkap...' },
+                  ].map(field => (
+                    <div key={field.id} className="space-y-4">
+                      <label htmlFor={field.id} className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{field.label}</label>
+                      <input id={field.id} type="text" placeholder={field.placeholder} required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none font-bold transition-all" />
+                    </div>
+                  ))}
+                  <div className="space-y-4">
+                    <label htmlFor="education-level" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Jenjang</label>
+                    <select id="education-level" className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none font-bold transition-all">
+                      {['SD', 'SMP', 'SMA'].map(opt => <option key={opt}>{opt}</option>)}
                     </select>
-                 </div>
-                 <button className="md:col-span-2 bg-slate-900 text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-xl mt-4">Simpan Data Peserta</button>
-              </form>
+                  </div>
+                  <button className="md:col-span-2 bg-slate-900 text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 active:scale-95 focus-visible:ring-2 focus-visible:ring-blue-500 transition-all shadow-xl mt-4">Simpan Data Peserta</button>
+                </form>
+              ) : (
+                <div className="text-center py-10 space-y-6">
+                  <CircleCheck className="mx-auto text-emerald-500 w-16 h-16" aria-hidden="true" />
+                  <h3 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">PENDAFTARAN BERHASIL!</h3>
+                  <p className="text-slate-600 font-bold max-w-md mx-auto">Data Anda telah masuk ke Database Prestasi Nasional. Silakan mulai kuis pertama Anda.</p>
+                  <button onClick={() => setIsSubmitted(false)} className="text-blue-600 font-black uppercase tracking-widest text-xs hover:underline">Daftar Kembali</button>
+                </div>
+              )}
            </div>
         </div>
       </section>
