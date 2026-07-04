@@ -36,7 +36,12 @@ const Navbar = () => {
           </div>
 
           <div className="md:hidden flex items-center">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-slate-600 p-2">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-slate-600 p-2 active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg outline-none"
+              aria-label={isOpen ? "Tutup menu" : "Buka menu"}
+              aria-expanded={isOpen}
+            >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -81,7 +86,11 @@ const Footer = () => (
           <p className="text-white text-lg font-black tracking-tighter uppercase mb-2">FADEL AQRAM MARPAUNG</p>
           <p className="text-slate-500 text-xs font-bold uppercase mb-4">Direktur Utama Academy Nusantara</p>
           <div className="flex space-x-4">
-            <a href="https://wa.me/628827793100" className="bg-white/5 border border-white/10 p-3 rounded-2xl hover:bg-emerald-600 hover:text-white transition-all">
+            <a
+              href="https://wa.me/628827793100"
+              className="bg-white/5 border border-white/10 p-3 rounded-2xl hover:bg-emerald-600 hover:text-white transition-all active:scale-95"
+              aria-label="WhatsApp Admin"
+            >
               <Phone size={20} />
             </a>
           </div>
@@ -97,9 +106,15 @@ const Footer = () => (
 export default function App() {
   return (
     <Router>
+      <a
+        href="#main-content"
+        className="bg-emerald-600 text-white px-4 py-2 rounded-md absolute z-[100] transition-transform -translate-y-full focus:translate-y-0 sr-only focus:not-sr-only"
+      >
+        Lanjut ke konten utama
+      </a>
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-grow">
+        <main id="main-content" tabIndex={-1} className="flex-grow outline-none">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/categories/:level" element={<Categories />} />
