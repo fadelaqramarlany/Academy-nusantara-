@@ -1,12 +1,13 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Trophy, BookOpen, GraduationCap, ChevronRight, Award, Zap, Brain, UserPlus } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Trophy, BookOpen, GraduationCap, ChevronRight, Award, Zap, Brain, UserPlus, ShieldCheck, CircleCheck } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const MotionDiv = motion.div as any;
 
 const Home: React.FC = () => {
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
@@ -71,34 +72,66 @@ const Home: React.FC = () => {
       {/* Registration Section */}
       <section id="pendaftaran" className="py-24 bg-slate-50 border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-6">
-           <div className="bg-white p-12 rounded-[3rem] shadow-2xl border-t-8 border-blue-600">
-              <div className="text-center mb-10">
-                 <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">PENDAFTARAN SISWA</h2>
-                 <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mt-2">Masuk ke Database Prestasi Nasional</p>
-              </div>
-              <form className="grid md:grid-cols-2 gap-6" onSubmit={(e) => { e.preventDefault(); alert("Pendaftaran Berhasil! Silakan mulai kuis pertama Anda."); }}>
-                 <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Nama Lengkap</label>
-                    <input type="text" placeholder="Nama sesuai rapor..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
-                 </div>
-                 <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">NISN</label>
-                    <input type="text" placeholder="Nomor Induk Siswa..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
-                 </div>
-                 <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Asal Sekolah</label>
-                    <input type="text" placeholder="Nama sekolah lengkap..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
-                 </div>
-                 <div className="space-y-4">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Jenjang</label>
-                    <select className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold">
-                       <option>SD</option>
-                       <option>SMP</option>
-                       <option>SMA</option>
-                    </select>
-                 </div>
-                 <button className="md:col-span-2 bg-slate-900 text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-xl mt-4">Simpan Data Peserta</button>
-              </form>
+           <div className="bg-white p-12 rounded-[3rem] shadow-2xl border-t-8 border-blue-600 min-h-[500px] flex flex-col justify-center">
+              <AnimatePresence mode="wait">
+                 {!isSubmitted ? (
+                    <MotionDiv
+                       key="registration-form"
+                       initial={{ opacity: 0, y: 20 }}
+                       animate={{ opacity: 1, y: 0 }}
+                       exit={{ opacity: 0, y: -20 }}
+                    >
+                       <div className="text-center mb-10">
+                          <h2 className="text-4xl font-black text-slate-900 uppercase tracking-tighter">PENDAFTARAN SISWA</h2>
+                          <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mt-2">Masuk ke Database Prestasi Nasional</p>
+                       </div>
+                       <form className="grid md:grid-cols-2 gap-6" onSubmit={(e) => { e.preventDefault(); setIsSubmitted(true); }}>
+                          <div className="space-y-4">
+                             <label htmlFor="student-name" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Nama Lengkap</label>
+                             <input id="student-name" type="text" placeholder="Nama sesuai rapor..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
+                          </div>
+                          <div className="space-y-4">
+                             <label htmlFor="student-nisn" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">NISN</label>
+                             <input id="student-nisn" type="text" placeholder="Nomor Induk Siswa..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
+                          </div>
+                          <div className="space-y-4">
+                             <label htmlFor="school-name" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Asal Sekolah</label>
+                             <input id="school-name" type="text" placeholder="Nama sekolah lengkap..." required className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold" />
+                          </div>
+                          <div className="space-y-4">
+                             <label htmlFor="education-level" className="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Jenjang</label>
+                             <select id="education-level" className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-blue-500 outline-none font-bold">
+                                <option>SD</option>
+                                <option>SMP</option>
+                                <option>SMA</option>
+                             </select>
+                          </div>
+                          <button className="md:col-span-2 bg-slate-900 text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-blue-600 transition-all shadow-xl mt-4 active:scale-95">Simpan Data Peserta</button>
+                       </form>
+                    </MotionDiv>
+                 ) : (
+                    <MotionDiv
+                       key="success-message"
+                       initial={{ opacity: 0, scale: 0.9 }}
+                       animate={{ opacity: 1, scale: 1 }}
+                       className="text-center py-10"
+                    >
+                       <div className="w-24 h-24 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+                          <CircleCheck size={48} />
+                       </div>
+                       <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter mb-4">PENDAFTARAN BERHASIL!</h2>
+                       <p className="text-slate-600 font-bold max-w-md mx-auto leading-relaxed uppercase text-xs tracking-widest">
+                          Data Anda telah masuk ke Database Prestasi Nasional. Silakan mulai kuis pertama Anda.
+                       </p>
+                       <button
+                          onClick={() => setIsSubmitted(false)}
+                          className="mt-10 text-blue-600 font-black uppercase tracking-widest text-[10px] hover:text-blue-700 transition-colors active:scale-95"
+                       >
+                          Daftar Siswa Lain
+                       </button>
+                    </MotionDiv>
+                 )}
+              </AnimatePresence>
            </div>
         </div>
       </section>
@@ -132,7 +165,7 @@ const Home: React.FC = () => {
                 </div>
                 <Link 
                   to={`/categories/${item.level}`}
-                  className="mt-auto w-full py-5 rounded-[2rem] font-black bg-slate-900 text-white hover:bg-emerald-600 transition-all uppercase tracking-[0.2em] text-sm shadow-lg"
+                  className="mt-auto w-full py-5 rounded-[2rem] font-black bg-slate-900 text-white hover:bg-emerald-600 transition-all uppercase tracking-[0.2em] text-sm shadow-lg active:scale-95"
                 >
                   Pilih Mapel
                 </Link>
